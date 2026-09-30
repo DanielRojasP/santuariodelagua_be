@@ -1,0 +1,48 @@
+{
+    "kind": "collectionType",
+    "collectionName": "guides",
+    "info": {
+        "singularName": "guide",
+        "pluralName": "guides",
+        "displayName": "Guide"
+    },
+    "options": {
+        "draftAndPublish": true
+    },
+    "pluginOptions": {},
+    "attributes": {
+        "name": {
+            "type": "string",
+            "required": true
+        },
+        "phone": {
+            "type": "string",
+            "required": true
+        },
+        "email": {
+            "type": "email",
+            "required": true
+        },
+        "languages": {
+            "type": "json",
+            "required": true
+        },
+        "is_available": {
+            "type": "boolean",
+            "required": true,
+            "default": true
+        },
+        "tours": {
+            "type": "relation",
+            "relation": "manyToMany",
+            "target": "api::tour.tour",
+            "inversedBy": "guides"
+        },
+        "booking_tour": {
+            "type": "relation",
+            "relation": "manyToOne",
+            "target": "api::booking-tour.booking-tour",
+            "inversedBy": "guides"
+        }
+    }
+}

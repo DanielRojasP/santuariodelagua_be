@@ -1,0 +1,57 @@
+{
+    "kind": "collectionType",
+    "collectionName": "visitor_details",
+    "info": {
+        "singularName": "visitor-detail",
+        "pluralName": "visitor-details",
+        "displayName": "VisitorDetail"
+    },
+    "options": {
+        "draftAndPublish": false
+    },
+    "pluginOptions": {},
+    "attributes": {
+        "gender": {
+            "type": "enumeration",
+            "required": true,
+            "enum": [
+                "MALE",
+                "FEMALE",
+                "OTHER"
+            ]
+        },
+        "age_group": {
+            "type": "enumeration",
+            "required": true,
+            "enum": [
+                "CHILD_0_12",
+                "YOUTH_13_17",
+                "ADULT_18_59",
+                "SENIOR_60_PLUS"
+            ]
+        },
+        "nationality": {
+            "type": "string",
+            "required": true
+        },
+        "is_local": {
+            "type": "boolean",
+            "required": true
+        },
+        "province": {
+            "type": "string",
+            "conditions": {
+                "visible": {
+                    "==": [
+                        {
+                            "var": "is_local"
+                        },
+                        true
+                    ]
+                }
+            },
+            "default": "N/A",
+            "required": true
+        }
+    }
+}

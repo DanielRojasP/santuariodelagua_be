@@ -1,0 +1,51 @@
+{
+    "kind": "collectionType",
+    "collectionName": "bookings",
+    "info": {
+        "singularName": "booking",
+        "pluralName": "bookings",
+        "displayName": "Booking"
+    },
+    "options": {
+        "draftAndPublish": false
+    },
+    "pluginOptions": {},
+    "attributes": {
+        "code": {
+            "type": "string",
+            "required": true
+        },
+        "total_amount": {
+            "type": "decimal",
+            "required": true
+        },
+        "status_booking": {
+            "type": "enumeration",
+            "required": true,
+            "default": "PENDING",
+            "enum": [
+                "PENDING",
+                "CONFIRMED",
+                "CANCELLED",
+                "REFUNDED"
+            ]
+        },
+        "customer_name": {
+            "type": "text",
+            "required": true
+        },
+        "customer_phone": {
+            "type": "string",
+            "required": true
+        },
+        "customer_email": {
+            "type": "email",
+            "required": true
+        },
+        "booking_tours": {
+            "type": "relation",
+            "relation": "oneToMany",
+            "target": "api::booking-tour.booking-tour"
+        }
+    }
+}

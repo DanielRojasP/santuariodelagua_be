@@ -1,0 +1,23 @@
+{
+  "collectionName": "components_schedules_guided_schedules",
+  "info": {
+    "displayName": "Guided Schedules"
+  },
+  "options": {},
+  "attributes": {
+    "time": {
+      "type": "time",
+      "required": true
+    },
+    "max_capacity": {
+      "type": "integer",
+      "required": true
+    },
+    "is_available": {
+      "type": "boolean",
+      "required": true,
+      "default": true
+    }
+  },
+  "config": {}
+}
