@@ -49,7 +49,8 @@
     "tour": {
       "type": "relation",
       "relation": "oneToOne",
-      "target": "api::tour.tour"
+      "target": "api::tour.tour",
+      "required": true
     },
     "guides": {
       "type": "relation",

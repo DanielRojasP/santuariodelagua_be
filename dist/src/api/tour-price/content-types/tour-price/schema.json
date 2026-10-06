@@ -1,0 +1,57 @@
+{
+    "kind": "collectionType",
+    "collectionName": "tour_prices",
+    "info": {
+        "singularName": "tour-price",
+        "pluralName": "tour-prices",
+        "displayName": "TourPrice"
+    },
+    "options": {
+        "draftAndPublish": false
+    },
+    "pluginOptions": {},
+    "attributes": {
+        "title": {
+            "type": "string",
+            "required": true
+        },
+        "tours": {
+            "type": "relation",
+            "relation": "manyToMany",
+            "target": "api::tour.tour",
+            "required": true,
+            "inversedBy": "tour_prices"
+        },
+        "visitor_type": {
+            "type": "enumeration",
+            "required": true,
+            "enum": [
+                "NATIONAL",
+                "FOREIGNER"
+            ]
+        },
+        "age_group": {
+            "type": "enumeration",
+            "required": true,
+            "enum": [
+                "CHILD_0_3",
+                "CHILD_4_12",
+                "YOUTH_13_17",
+                "ADULT_18_59",
+                "SENIOR_60_PLUS"
+            ]
+        },
+        "tour_type": {
+            "type": "enumeration",
+            "required": true,
+            "enum": [
+                "INDIVIDUAL",
+                "GUIDED"
+            ]
+        },
+        "price": {
+            "type": "decimal",
+            "required": true
+        }
+    }
+}

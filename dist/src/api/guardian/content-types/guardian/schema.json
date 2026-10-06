@@ -1,0 +1,27 @@
+{
+    "kind": "collectionType",
+    "collectionName": "guardians",
+    "info": {
+        "singularName": "guardian",
+        "pluralName": "guardians",
+        "displayName": "Guardian"
+    },
+    "options": {
+        "draftAndPublish": false
+    },
+    "pluginOptions": {},
+    "attributes": {
+        "complete_name": {
+            "type": "string",
+            "required": true
+        },
+        "id_or_passport": {
+            "type": "string",
+            "required": true
+        },
+        "phone_number": {
+            "type": "string",
+            "required": true
+        }
+    }
+}

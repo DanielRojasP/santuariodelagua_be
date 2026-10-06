@@ -156,6 +156,12 @@
       "relation": "manyToMany",
       "target": "api::guide.guide",
       "mappedBy": "tours"
+    },
+    "tour_prices": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::tour-price.tour-price",
+      "mappedBy": "tours"
     }
   }
 }

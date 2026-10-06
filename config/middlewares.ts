@@ -1,6 +1,24 @@
-import type { Core } from '@strapi/strapi';
-
-const config: Core.Config.Middlewares = [
+export default [
+  {
+    name: 'strapi::cors',
+    config: {
+      origin: [
+        'http://localhost:3000',      
+        'http://localhost:1337', 
+        'https://refreshing-passion-2f31c9361b.strapiapp.com',        
+        'https://dev-santuariodelagua.netlify.app',       
+        'https://relieved-maggot-logical.ngrok-free.app'
+      ],
+      headers: [
+        'Content-Type',
+        'Authorization',
+        'Origin',
+        'Accept',
+        'ngrok-skip-browser-warning' 
+      ],
+      credentials: true,
+    },
+  },
   'strapi::logger',
   'strapi::errors',
   'strapi::security',
@@ -12,5 +30,3 @@ const config: Core.Config.Middlewares = [
   'strapi::favicon',
   'strapi::public',
 ];
-
-export default config;

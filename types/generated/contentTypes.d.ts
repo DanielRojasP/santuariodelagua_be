@@ -475,7 +475,8 @@ export interface ApiBookingTourBookingTour extends Struct.CollectionTypeSchema {
     > &
       Schema.Attribute.Required;
     total_tour_amount: Schema.Attribute.Decimal & Schema.Attribute.Required;
-    tour: Schema.Attribute.Relation<'oneToOne', 'api::tour.tour'>;
+    tour: Schema.Attribute.Relation<'oneToOne', 'api::tour.tour'> &
+      Schema.Attribute.Required;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -505,8 +506,8 @@ export interface ApiBookingBooking extends Struct.CollectionTypeSchema {
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+    customer_complete_name: Schema.Attribute.Text & Schema.Attribute.Required;
     customer_email: Schema.Attribute.Email & Schema.Attribute.Required;
-    customer_name: Schema.Attribute.Text & Schema.Attribute.Required;
     customer_phone: Schema.Attribute.String & Schema.Attribute.Required;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
@@ -521,6 +522,36 @@ export interface ApiBookingBooking extends Struct.CollectionTypeSchema {
       Schema.Attribute.Required &
       Schema.Attribute.DefaultTo<'PENDING'>;
     total_amount: Schema.Attribute.Decimal & Schema.Attribute.Required;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiGuardianGuardian extends Struct.CollectionTypeSchema {
+  collectionName: 'guardians';
+  info: {
+    displayName: 'Guardian';
+    pluralName: 'guardians';
+    singularName: 'guardian';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    complete_name: Schema.Attribute.String & Schema.Attribute.Required;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    id_or_passport: Schema.Attribute.String & Schema.Attribute.Required;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::guardian.guardian'
+    > &
+      Schema.Attribute.Private;
+    phone_number: Schema.Attribute.String & Schema.Attribute.Required;
+    publishedAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -560,6 +591,51 @@ export interface ApiGuideGuide extends Struct.CollectionTypeSchema {
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+  };
+}
+
+export interface ApiTourPriceTourPrice extends Struct.CollectionTypeSchema {
+  collectionName: 'tour_prices';
+  info: {
+    displayName: 'TourPrice';
+    pluralName: 'tour-prices';
+    singularName: 'tour-price';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    age_group: Schema.Attribute.Enumeration<
+      [
+        'CHILD_0_3',
+        'CHILD_4_12',
+        'YOUTH_13_17',
+        'ADULT_18_59',
+        'SENIOR_60_PLUS',
+      ]
+    > &
+      Schema.Attribute.Required;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::tour-price.tour-price'
+    > &
+      Schema.Attribute.Private;
+    price: Schema.Attribute.Decimal & Schema.Attribute.Required;
+    publishedAt: Schema.Attribute.DateTime;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+    tour_type: Schema.Attribute.Enumeration<['INDIVIDUAL', 'GUIDED']> &
+      Schema.Attribute.Required;
+    tours: Schema.Attribute.Relation<'manyToMany', 'api::tour.tour'> &
+      Schema.Attribute.Required;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    visitor_type: Schema.Attribute.Enumeration<['NATIONAL', 'FOREIGNER']> &
+      Schema.Attribute.Required;
   };
 }
 
@@ -674,6 +750,10 @@ export interface ApiTourTour extends Struct.CollectionTypeSchema {
           localized: true;
         };
       }>;
+    tour_prices: Schema.Attribute.Relation<
+      'manyToMany',
+      'api::tour-price.tour-price'
+    >;
     type: Schema.Attribute.Enumeration<
       ['INDIVIDUAL_ONLY', 'GUIDED_ONLY', 'HYBRID']
     > &
@@ -702,14 +782,23 @@ export interface ApiVisitorDetailVisitorDetail
   };
   attributes: {
     age_group: Schema.Attribute.Enumeration<
-      ['CHILD_0_12', 'YOUTH_13_17', 'ADULT_18_59', 'SENIOR_60_PLUS']
+      [
+        'CHILD_0_3',
+        'CHILD_4_12',
+        'YOUTH_13_17',
+        'ADULT_18_59',
+        'SENIOR_60_PLUS',
+      ]
     > &
       Schema.Attribute.Required;
+    complete_name: Schema.Attribute.String & Schema.Attribute.Required;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     gender: Schema.Attribute.Enumeration<['MALE', 'FEMALE', 'OTHER']> &
       Schema.Attribute.Required;
+    guardian: Schema.Attribute.Relation<'oneToOne', 'api::guardian.guardian'>;
+    id_or_passport: Schema.Attribute.String & Schema.Attribute.Required;
     is_local: Schema.Attribute.Boolean & Schema.Attribute.Required;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
@@ -718,6 +807,7 @@ export interface ApiVisitorDetailVisitorDetail
     > &
       Schema.Attribute.Private;
     nationality: Schema.Attribute.String & Schema.Attribute.Required;
+    phone_number: Schema.Attribute.String;
     province: Schema.Attribute.String &
       Schema.Attribute.Required &
       Schema.Attribute.DefaultTo<'N/A'>;
@@ -1241,7 +1331,9 @@ declare module '@strapi/strapi' {
       'admin::user': AdminUser;
       'api::booking-tour.booking-tour': ApiBookingTourBookingTour;
       'api::booking.booking': ApiBookingBooking;
+      'api::guardian.guardian': ApiGuardianGuardian;
       'api::guide.guide': ApiGuideGuide;
+      'api::tour-price.tour-price': ApiTourPriceTourPrice;
       'api::tour.tour': ApiTourTour;
       'api::visitor-detail.visitor-detail': ApiVisitorDetailVisitorDetail;
       'plugin::content-releases.release': PluginContentReleasesRelease;

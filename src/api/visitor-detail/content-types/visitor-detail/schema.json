@@ -11,6 +11,18 @@
   },
   "pluginOptions": {},
   "attributes": {
+    "complete_name": {
+      "type": "string",
+      "required": true
+    },
+    "id_or_passport": {
+      "type": "string",
+      "required": true
+    },
+    "phone_number": {
+      "type": "string",
+      "required": false
+    },
     "gender": {
       "type": "enumeration",
       "required": true,
@@ -24,7 +36,8 @@
       "type": "enumeration",
       "required": true,
       "enum": [
-        "CHILD_0_12",
+        "CHILD_0_3",
+        "CHILD_4_12",
         "YOUTH_13_17",
         "ADULT_18_59",
         "SENIOR_60_PLUS"
@@ -52,6 +65,12 @@
       },
       "default": "N/A",
       "required": true
+    },
+    "guardian": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::guardian.guardian",
+      "required": false
     }
   }
 }
