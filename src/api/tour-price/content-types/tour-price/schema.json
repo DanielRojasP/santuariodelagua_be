@@ -26,7 +26,7 @@
       "type": "enumeration",
       "required": true,
       "enum": [
-        "NATIONAL",
+        "LOCAL",
         "FOREIGNER"
       ]
     },

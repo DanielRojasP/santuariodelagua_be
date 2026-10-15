@@ -577,6 +577,8 @@ export interface ApiGuideGuide extends Struct.CollectionTypeSchema {
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     email: Schema.Attribute.Email & Schema.Attribute.Required;
+    guide_type: Schema.Attribute.Enumeration<['INTERNAL', 'EXTERNAL']> &
+      Schema.Attribute.Required;
     is_available: Schema.Attribute.Boolean &
       Schema.Attribute.Required &
       Schema.Attribute.DefaultTo<true>;
@@ -587,7 +589,75 @@ export interface ApiGuideGuide extends Struct.CollectionTypeSchema {
     name: Schema.Attribute.String & Schema.Attribute.Required;
     phone: Schema.Attribute.String & Schema.Attribute.Required;
     publishedAt: Schema.Attribute.DateTime;
+    tour_operator: Schema.Attribute.Relation<
+      'oneToOne',
+      'api::tour-operator.tour-operator'
+    >;
     tours: Schema.Attribute.Relation<'manyToMany', 'api::tour.tour'>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiTourCategoryTourCategory
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'tour_categories';
+  info: {
+    displayName: 'TourCategory';
+    pluralName: 'tour-categories';
+    singularName: 'tour-category';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    icon: Schema.Attribute.Media<'images', true>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::tour-category.tour-category'
+    > &
+      Schema.Attribute.Private;
+    name: Schema.Attribute.String & Schema.Attribute.Required;
+    publishedAt: Schema.Attribute.DateTime;
+    slug: Schema.Attribute.UID<'name'> & Schema.Attribute.Required;
+    tours: Schema.Attribute.Relation<'manyToMany', 'api::tour.tour'> &
+      Schema.Attribute.Required;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiTourOperatorTourOperator
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'tour_operators';
+  info: {
+    displayName: 'TourOperator';
+    pluralName: 'tour-operators';
+    singularName: 'tour-operator';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    email: Schema.Attribute.Email & Schema.Attribute.Required;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::tour-operator.tour-operator'
+    > &
+      Schema.Attribute.Private;
+    name: Schema.Attribute.String & Schema.Attribute.Required;
+    phone_number: Schema.Attribute.String & Schema.Attribute.Required;
+    publishedAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -655,13 +725,6 @@ export interface ApiTourTour extends Struct.CollectionTypeSchema {
     };
   };
   attributes: {
-    category: Schema.Attribute.Enumeration<['Accessible', 'Hiking']> &
-      Schema.Attribute.Required &
-      Schema.Attribute.SetPluginOptions<{
-        i18n: {
-          localized: true;
-        };
-      }>;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -673,6 +736,13 @@ export interface ApiTourTour extends Struct.CollectionTypeSchema {
         };
       }>;
     duration_minutes: Schema.Attribute.Integer &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    effort: Schema.Attribute.Enumeration<['LOW', 'MODERATE', 'HIGH']> &
       Schema.Attribute.Required &
       Schema.Attribute.SetPluginOptions<{
         i18n: {
@@ -707,21 +777,7 @@ export interface ApiTourTour extends Struct.CollectionTypeSchema {
           localized: true;
         };
       }>;
-    price_adults: Schema.Attribute.Decimal &
-      Schema.Attribute.Required &
-      Schema.Attribute.SetPluginOptions<{
-        i18n: {
-          localized: true;
-        };
-      }>;
-    price_kids: Schema.Attribute.Decimal &
-      Schema.Attribute.Required &
-      Schema.Attribute.SetPluginOptions<{
-        i18n: {
-          localized: true;
-        };
-      }>;
-    price_senior_citizen: Schema.Attribute.Decimal &
+    price_from: Schema.Attribute.Decimal &
       Schema.Attribute.Required &
       Schema.Attribute.SetPluginOptions<{
         i18n: {
@@ -750,6 +806,10 @@ export interface ApiTourTour extends Struct.CollectionTypeSchema {
           localized: true;
         };
       }>;
+    tour_categories: Schema.Attribute.Relation<
+      'manyToMany',
+      'api::tour-category.tour-category'
+    >;
     tour_prices: Schema.Attribute.Relation<
       'manyToMany',
       'api::tour-price.tour-price'
@@ -808,9 +868,17 @@ export interface ApiVisitorDetailVisitorDetail
       Schema.Attribute.Private;
     nationality: Schema.Attribute.String & Schema.Attribute.Required;
     phone_number: Schema.Attribute.String;
-    province: Schema.Attribute.String &
-      Schema.Attribute.Required &
-      Schema.Attribute.DefaultTo<'N/A'>;
+    province: Schema.Attribute.Enumeration<
+      [
+        'SAN_JOSE',
+        'ALAJUELA',
+        'CARTAGO',
+        'HEREDIA',
+        'GUANACASTE',
+        'PUNTARENAS',
+        'LIMON',
+      ]
+    >;
     publishedAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
@@ -1333,6 +1401,8 @@ declare module '@strapi/strapi' {
       'api::booking.booking': ApiBookingBooking;
       'api::guardian.guardian': ApiGuardianGuardian;
       'api::guide.guide': ApiGuideGuide;
+      'api::tour-category.tour-category': ApiTourCategoryTourCategory;
+      'api::tour-operator.tour-operator': ApiTourOperatorTourOperator;
       'api::tour-price.tour-price': ApiTourPriceTourPrice;
       'api::tour.tour': ApiTourTour;
       'api::visitor-detail.visitor-detail': ApiVisitorDetailVisitorDetail;

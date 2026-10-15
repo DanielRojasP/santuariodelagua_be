@@ -32,6 +32,29 @@
             "required": true,
             "default": true
         },
+        "guide_type": {
+            "type": "enumeration",
+            "required": true,
+            "enum": [
+                "INTERNAL",
+                "EXTERNAL"
+            ]
+        },
+        "tour_operator": {
+            "type": "relation",
+            "relation": "oneToOne",
+            "target": "api::tour-operator.tour-operator",
+            "conditions": {
+                "visible": {
+                    "==": [
+                        {
+                            "var": "guide_type"
+                        },
+                        "EXTERNAL"
+                    ]
+                }
+            }
+        },
         "tours": {
             "type": "relation",
             "relation": "manyToMany",

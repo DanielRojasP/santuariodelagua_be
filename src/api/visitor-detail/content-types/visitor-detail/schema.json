@@ -52,7 +52,7 @@
       "required": true
     },
     "province": {
-      "type": "string",
+      "type": "enumeration",
       "conditions": {
         "visible": {
           "==": [
@@ -63,8 +63,15 @@
           ]
         }
       },
-      "default": "N/A",
-      "required": true
+      "enum": [
+        "SAN_JOSE",
+        "ALAJUELA",
+        "CARTAGO",
+        "HEREDIA",
+        "GUANACASTE",
+        "PUNTARENAS",
+        "LIMON"
+      ]
     },
     "guardian": {
       "type": "relation",

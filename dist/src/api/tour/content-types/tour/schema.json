@@ -65,6 +65,20 @@
             },
             "required": true
         },
+        "effort": {
+            "type": "enumeration",
+            "pluginOptions": {
+                "i18n": {
+                    "localized": true
+                }
+            },
+            "required": true,
+            "enum": [
+                "LOW",
+                "MODERATE",
+                "HIGH"
+            ]
+        },
         "type": {
             "type": "enumeration",
             "pluginOptions": {
@@ -79,7 +93,7 @@
                 "HYBRID"
             ]
         },
-        "price_adults": {
+        "price_from": {
             "type": "decimal",
             "pluginOptions": {
                 "i18n": {
@@ -87,37 +101,6 @@
                 }
             },
             "required": true
-        },
-        "price_kids": {
-            "type": "decimal",
-            "pluginOptions": {
-                "i18n": {
-                    "localized": true
-                }
-            },
-            "required": true
-        },
-        "price_senior_citizen": {
-            "type": "decimal",
-            "pluginOptions": {
-                "i18n": {
-                    "localized": true
-                }
-            },
-            "required": true
-        },
-        "category": {
-            "type": "enumeration",
-            "pluginOptions": {
-                "i18n": {
-                    "localized": true
-                }
-            },
-            "required": true,
-            "enum": [
-                "Accessible",
-                "Hiking"
-            ]
         },
         "is_active": {
             "type": "boolean",
@@ -161,6 +144,12 @@
             "type": "relation",
             "relation": "manyToMany",
             "target": "api::tour-price.tour-price",
+            "mappedBy": "tours"
+        },
+        "tour_categories": {
+            "type": "relation",
+            "relation": "manyToMany",
+            "target": "api::tour-category.tour-category",
             "mappedBy": "tours"
         }
     }
