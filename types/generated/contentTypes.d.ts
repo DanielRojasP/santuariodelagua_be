@@ -704,7 +704,7 @@ export interface ApiTourPriceTourPrice extends Struct.CollectionTypeSchema {
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    visitor_type: Schema.Attribute.Enumeration<['NATIONAL', 'FOREIGNER']> &
+    visitor_type: Schema.Attribute.Enumeration<['LOCAL', 'FOREIGNER']> &
       Schema.Attribute.Required;
   };
 }
@@ -815,7 +815,7 @@ export interface ApiTourTour extends Struct.CollectionTypeSchema {
       'api::tour-price.tour-price'
     >;
     type: Schema.Attribute.Enumeration<
-      ['INDIVIDUAL_ONLY', 'GUIDED_ONLY', 'HYBRID']
+      ['SELF_GUIDED_ONLY', 'GUIDED_ONLY', 'HYBRID']
     > &
       Schema.Attribute.Required &
       Schema.Attribute.SetPluginOptions<{

@@ -88,7 +88,7 @@
       },
       "required": true,
       "enum": [
-        "INDIVIDUAL_ONLY",
+        "SELF_GUIDED_ONLY",
         "GUIDED_ONLY",
         "HYBRID"
       ]
