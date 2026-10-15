@@ -7,7 +7,7 @@ export default [
         'http://localhost:1337', 
         'https://refreshing-passion-2f31c9361b.strapiapp.com',        
         'https://dev-santuariodelagua.netlify.app',       
-        'https://relieved-maggot-logical.ngrok-free.app'
+        'https://santuariodelagua-be.onrender.com'
       ],
       headers: [
         'Content-Type',
