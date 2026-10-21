@@ -676,18 +676,14 @@ export interface ApiTourPriceTourPrice extends Struct.CollectionTypeSchema {
   };
   attributes: {
     age_group: Schema.Attribute.Enumeration<
-      [
-        'CHILD_0_3',
-        'CHILD_4_12',
-        'YOUTH_13_17',
-        'ADULT_18_59',
-        'SENIOR_60_PLUS',
-      ]
+      ['CHILD_0_3', 'CHILD_4_12', 'ADULT_OR_YOUTH_13_64', 'SENIOR_65_PLUS']
     > &
       Schema.Attribute.Required;
+    code: Schema.Attribute.String & Schema.Attribute.Required;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+    description: Schema.Attribute.String & Schema.Attribute.Required;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -697,7 +693,7 @@ export interface ApiTourPriceTourPrice extends Struct.CollectionTypeSchema {
     price: Schema.Attribute.Decimal & Schema.Attribute.Required;
     publishedAt: Schema.Attribute.DateTime;
     title: Schema.Attribute.String & Schema.Attribute.Required;
-    tour_type: Schema.Attribute.Enumeration<['INDIVIDUAL', 'GUIDED']> &
+    tour_type: Schema.Attribute.Enumeration<['SELF_GUIDED', 'GUIDED']> &
       Schema.Attribute.Required;
     tours: Schema.Attribute.Relation<'manyToMany', 'api::tour.tour'> &
       Schema.Attribute.Required;
@@ -842,13 +838,7 @@ export interface ApiVisitorDetailVisitorDetail
   };
   attributes: {
     age_group: Schema.Attribute.Enumeration<
-      [
-        'CHILD_0_3',
-        'CHILD_4_12',
-        'YOUTH_13_17',
-        'ADULT_18_59',
-        'SENIOR_60_PLUS',
-      ]
+      ['CHILD_0_3', 'CHILD_4_12', 'ADULT_OR_YOUTH_13_64', 'SENIOR_65_PLUS']
     > &
       Schema.Attribute.Required;
     complete_name: Schema.Attribute.String & Schema.Attribute.Required;

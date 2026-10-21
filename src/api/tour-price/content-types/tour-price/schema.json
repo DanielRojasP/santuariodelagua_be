@@ -11,16 +11,17 @@
   },
   "pluginOptions": {},
   "attributes": {
+    "code": {
+      "type": "string",
+      "required": true
+    },
     "title": {
       "type": "string",
       "required": true
     },
-    "tours": {
-      "type": "relation",
-      "relation": "manyToMany",
-      "target": "api::tour.tour",
-      "required": true,
-      "inversedBy": "tour_prices"
+    "description": {
+      "type": "string",
+      "required": true
     },
     "visitor_type": {
       "type": "enumeration",
@@ -36,22 +37,28 @@
       "enum": [
         "CHILD_0_3",
         "CHILD_4_12",
-        "YOUTH_13_17",
-        "ADULT_18_59",
-        "SENIOR_60_PLUS"
+        "ADULT_OR_YOUTH_13_64",
+        "SENIOR_65_PLUS"
       ]
     },
     "tour_type": {
       "type": "enumeration",
       "required": true,
       "enum": [
-        "INDIVIDUAL",
+        "SELF_GUIDED",
         "GUIDED"
       ]
     },
     "price": {
       "type": "decimal",
       "required": true
+    },
+    "tours": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::tour.tour",
+      "required": true,
+      "inversedBy": "tour_prices"
     }
   }
 }
