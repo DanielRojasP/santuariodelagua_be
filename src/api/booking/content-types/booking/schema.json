@@ -41,11 +41,6 @@
     "customer_email": {
       "type": "email",
       "required": true
-    },
-    "booking_tours": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::booking-tour.booking-tour"
     }
   }
 }

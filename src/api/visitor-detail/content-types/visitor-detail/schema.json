@@ -13,11 +13,11 @@
   "attributes": {
     "complete_name": {
       "type": "string",
-      "required": true
+      "required": false
     },
     "id_or_passport": {
       "type": "string",
-      "required": true
+      "required": false
     },
     "phone_number": {
       "type": "string",
@@ -25,7 +25,7 @@
     },
     "gender": {
       "type": "enumeration",
-      "required": true,
+      "required": false,
       "enum": [
         "MALE",
         "FEMALE",
@@ -44,7 +44,7 @@
     },
     "nationality": {
       "type": "string",
-      "required": true
+      "required": false
     },
     "is_local": {
       "type": "boolean",
@@ -77,6 +77,19 @@
       "relation": "oneToOne",
       "target": "api::guardian.guardian",
       "required": false
+    },
+    "visitor_type": {
+      "type": "enumeration",
+      "enum": [
+        "LOCAL",
+        "FOREIGNER"
+      ]
+    },
+    "booking_tours": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::booking-tour.booking-tour",
+      "mappedBy": "visitor_detail"
     }
   }
 }

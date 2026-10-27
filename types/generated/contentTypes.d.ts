@@ -454,6 +454,7 @@ export interface ApiBookingTourBookingTour extends Struct.CollectionTypeSchema {
     draftAndPublish: false;
   };
   attributes: {
+    booking: Schema.Attribute.Relation<'oneToOne', 'api::booking.booking'>;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -480,8 +481,8 @@ export interface ApiBookingTourBookingTour extends Struct.CollectionTypeSchema {
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    visitor_details: Schema.Attribute.Relation<
-      'oneToMany',
+    visitor_detail: Schema.Attribute.Relation<
+      'manyToOne',
       'api::visitor-detail.visitor-detail'
     >;
   };
@@ -498,10 +499,6 @@ export interface ApiBookingBooking extends Struct.CollectionTypeSchema {
     draftAndPublish: false;
   };
   attributes: {
-    booking_tours: Schema.Attribute.Relation<
-      'oneToMany',
-      'api::booking-tour.booking-tour'
-    >;
     code: Schema.Attribute.String & Schema.Attribute.Required;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
@@ -841,14 +838,17 @@ export interface ApiVisitorDetailVisitorDetail
       ['CHILD_0_3', 'CHILD_4_12', 'ADULT_OR_YOUTH_13_64', 'SENIOR_65_PLUS']
     > &
       Schema.Attribute.Required;
-    complete_name: Schema.Attribute.String & Schema.Attribute.Required;
+    booking_tours: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::booking-tour.booking-tour'
+    >;
+    complete_name: Schema.Attribute.String;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    gender: Schema.Attribute.Enumeration<['MALE', 'FEMALE', 'OTHER']> &
-      Schema.Attribute.Required;
+    gender: Schema.Attribute.Enumeration<['MALE', 'FEMALE', 'OTHER']>;
     guardian: Schema.Attribute.Relation<'oneToOne', 'api::guardian.guardian'>;
-    id_or_passport: Schema.Attribute.String & Schema.Attribute.Required;
+    id_or_passport: Schema.Attribute.String;
     is_local: Schema.Attribute.Boolean & Schema.Attribute.Required;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
@@ -856,7 +856,7 @@ export interface ApiVisitorDetailVisitorDetail
       'api::visitor-detail.visitor-detail'
     > &
       Schema.Attribute.Private;
-    nationality: Schema.Attribute.String & Schema.Attribute.Required;
+    nationality: Schema.Attribute.String;
     phone_number: Schema.Attribute.String;
     province: Schema.Attribute.Enumeration<
       [
@@ -873,6 +873,7 @@ export interface ApiVisitorDetailVisitorDetail
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+    visitor_type: Schema.Attribute.Enumeration<['LOCAL', 'FOREIGNER']>;
   };
 }
 
