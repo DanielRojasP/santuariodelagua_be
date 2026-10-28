@@ -48,7 +48,7 @@
     },
     "is_local": {
       "type": "boolean",
-      "required": true
+      "required": false
     },
     "province": {
       "type": "enumeration",
@@ -85,11 +85,11 @@
         "FOREIGNER"
       ]
     },
-    "booking_tours": {
+    "booking_tour": {
       "type": "relation",
-      "relation": "oneToMany",
+      "relation": "manyToOne",
       "target": "api::booking-tour.booking-tour",
-      "mappedBy": "visitor_detail"
+      "inversedBy": "visitor_details"
     }
   }
 }

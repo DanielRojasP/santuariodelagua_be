@@ -63,11 +63,11 @@
       "relation": "oneToOne",
       "target": "api::booking.booking"
     },
-    "visitor_detail": {
+    "visitor_details": {
       "type": "relation",
-      "relation": "manyToOne",
+      "relation": "oneToMany",
       "target": "api::visitor-detail.visitor-detail",
-      "inversedBy": "booking_tours"
+      "mappedBy": "booking_tour"
     }
   }
 }

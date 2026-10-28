@@ -481,8 +481,8 @@ export interface ApiBookingTourBookingTour extends Struct.CollectionTypeSchema {
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    visitor_detail: Schema.Attribute.Relation<
-      'manyToOne',
+    visitor_details: Schema.Attribute.Relation<
+      'oneToMany',
       'api::visitor-detail.visitor-detail'
     >;
   };
@@ -838,8 +838,8 @@ export interface ApiVisitorDetailVisitorDetail
       ['CHILD_0_3', 'CHILD_4_12', 'ADULT_OR_YOUTH_13_64', 'SENIOR_65_PLUS']
     > &
       Schema.Attribute.Required;
-    booking_tours: Schema.Attribute.Relation<
-      'oneToMany',
+    booking_tour: Schema.Attribute.Relation<
+      'manyToOne',
       'api::booking-tour.booking-tour'
     >;
     complete_name: Schema.Attribute.String;
@@ -849,7 +849,7 @@ export interface ApiVisitorDetailVisitorDetail
     gender: Schema.Attribute.Enumeration<['MALE', 'FEMALE', 'OTHER']>;
     guardian: Schema.Attribute.Relation<'oneToOne', 'api::guardian.guardian'>;
     id_or_passport: Schema.Attribute.String;
-    is_local: Schema.Attribute.Boolean & Schema.Attribute.Required;
+    is_local: Schema.Attribute.Boolean;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
