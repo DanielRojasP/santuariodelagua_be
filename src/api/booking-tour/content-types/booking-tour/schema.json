@@ -12,7 +12,7 @@
   "pluginOptions": {},
   "attributes": {
     "date": {
-      "type": "datetime",
+      "type": "date",
       "required": true
     },
     "pax_count": {
@@ -68,6 +68,9 @@
       "relation": "oneToMany",
       "target": "api::visitor-detail.visitor-detail",
       "mappedBy": "booking_tour"
+    },
+    "time": {
+      "type": "time"
     }
   }
 }

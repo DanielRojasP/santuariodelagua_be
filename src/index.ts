@@ -16,6 +16,7 @@ interface CreateFullBookingInput {
   customer_phone: string;
   tourDocumentId: string;
   date?: string | null;
+  time?: string | null;
   is_guided: boolean;
   local_visitors: VisitorInput[];
   foreigner_visitors: VisitorInput[];
@@ -81,6 +82,7 @@ export default {
             customer_phone: String!
             tourDocumentId: String!
             date: String
+            time: String
             is_guided: Boolean!
             local_visitors: [VisitorInput!]!
             foreigner_visitors: [VisitorInput!]!
@@ -146,12 +148,15 @@ export default {
                   customer_phone: data.customer_phone,
                 });
 
+                console.log('data', data);
+
                 // 2. BookingTour asociado
                 const bookingTour = await create('api::booking-tour.booking-tour', {
                   booking: booking.documentId,
                   tour: data.tourDocumentId,
                   is_guided: data.is_guided,
-                  date: buildTourDate(data.date),
+                  date: data.date,
+                  time:data.time,
                   pax_count: totalPax,
                   total_tour_amount: data.total_amount,
                   languague: 'es',
@@ -168,13 +173,15 @@ export default {
                 for (const v of allVisitors) {
                   console.log('>>> visitor', bookingTour.documentId, v.visitor_type, v.age_group, v.quantity);
                   if (v.quantity > 0) {
-                    await create('api::visitor-detail.visitor-detail', {
-                      booking_tour: bookingTour.documentId,
-                      visitor_type: v.visitor_type,
-                      age_group: v.age_group,
-                      // quantity: v.quantity,
+                    for (let i = 0; i < v.quantity; i++) {
+                      await create('api::visitor-detail.visitor-detail', {
+                        booking_tour: bookingTour.documentId,
+                        visitor_type: v.visitor_type,
+                        age_group: v.age_group,
+                        // quantity: v.quantity,
+                    
                     });
-                  }
+                  }}
                 }
 
                 return {

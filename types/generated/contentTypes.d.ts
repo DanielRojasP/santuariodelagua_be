@@ -458,7 +458,7 @@ export interface ApiBookingTourBookingTour extends Struct.CollectionTypeSchema {
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    date: Schema.Attribute.DateTime & Schema.Attribute.Required;
+    date: Schema.Attribute.Date & Schema.Attribute.Required;
     duration: Schema.Attribute.Integer & Schema.Attribute.Required;
     guides: Schema.Attribute.Relation<'oneToMany', 'api::guide.guide'>;
     is_guided: Schema.Attribute.Boolean & Schema.Attribute.Required;
@@ -475,6 +475,7 @@ export interface ApiBookingTourBookingTour extends Struct.CollectionTypeSchema {
       ['PENDING', 'CONFIRMED', 'CANCELED', 'REFUNDED', 'FINISHED']
     > &
       Schema.Attribute.Required;
+    time: Schema.Attribute.Time;
     total_tour_amount: Schema.Attribute.Decimal & Schema.Attribute.Required;
     tour: Schema.Attribute.Relation<'oneToOne', 'api::tour.tour'> &
       Schema.Attribute.Required;
