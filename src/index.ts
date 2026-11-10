@@ -1,4 +1,5 @@
 import type { Core } from '@strapi/strapi';
+import {sendEnConfirmationEmail} from './api/booking/services/en_confirmation_email';
 
 // ---------- Tipos ----------
 interface VisitorInput {
@@ -21,6 +22,7 @@ interface CreateFullBookingInput {
   local_visitors: VisitorInput[];
   foreigner_visitors: VisitorInput[];
   duration?: number | null;
+  language?: string | null;
 }
 
 interface FullBookingPayload {
@@ -81,6 +83,7 @@ export default {
             customer_email: String!
             customer_phone: String!
             tourDocumentId: String!
+            language: String
             date: String
             time: String
             is_guided: Boolean!
@@ -146,6 +149,7 @@ export default {
                   customer_complete_name: data.customer_complete_name,
                   customer_email: data.customer_email,
                   customer_phone: data.customer_phone,
+                  language: data.language ?? 'es',
                 });
 
                 console.log('data', data);
@@ -184,11 +188,24 @@ export default {
                   }}
                 }
 
+
+                if(data.language === 'en'){
+                  await sendEnConfirmationEmail({
+                    customer_email: data.customer_email,
+                    customer_complete_name: data.customer_complete_name,
+                    code: data.code,
+                    date: data.date ?? '',
+                    time: data.time ?? '',
+                    visitors: allVisitors,
+                  });
+                }   
+
                 return {
                   success: true,
                   bookingDocumentId: booking.documentId,
                   error: null,
                 };
+
               } catch (err) {
                 strapi.log.error(`Error en createFullBooking: ${errorMessage(err)}`);
 

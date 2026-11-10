@@ -41,6 +41,10 @@
     "customer_email": {
       "type": "email",
       "required": true
+    },
+    "language": {
+      "type": "string",
+      "required": true
     }
   }
 }
