@@ -1,5 +1,7 @@
 import type { Core } from '@strapi/strapi';
-import {sendEnConfirmationEmail} from './api/booking/services/en_confirmation_email';
+import { sendEnConfirmationEmail } from './api/booking/services/en_confirmation_email';
+import { sendEsConfirmationEmail } from './api/booking/services/es_confirmation_email';
+import { getTourTitle } from './api/tour/services/get_tour_title';
 
 // ---------- Tipos ----------
 interface VisitorInput {
@@ -160,7 +162,7 @@ export default {
                   tour: data.tourDocumentId,
                   is_guided: data.is_guided,
                   date: data.date,
-                  time:data.time,
+                  time: data.time,
                   pax_count: totalPax,
                   total_tour_amount: data.total_amount,
                   languague: 'es',
@@ -183,22 +185,39 @@ export default {
                         visitor_type: v.visitor_type,
                         age_group: v.age_group,
                         // quantity: v.quantity,
-                    
-                    });
-                  }}
+
+                      });
+                    }
+                  }
                 }
 
 
-                if(data.language === 'en'){
+                if (data.language === 'en') {
                   await sendEnConfirmationEmail({
+                    tour_title: await getTourTitle(data.tourDocumentId, data.language),
+                    is_guided: data.is_guided,
                     customer_email: data.customer_email,
                     customer_complete_name: data.customer_complete_name,
                     code: data.code,
                     date: data.date ?? '',
                     time: data.time ?? '',
                     visitors: allVisitors,
+                    total_price: data.total_amount.toFixed(2),
                   });
-                }   
+                }
+                if (data.language === 'es') {
+                  await sendEsConfirmationEmail({
+                    tour_title: await getTourTitle(data.tourDocumentId, data.language),
+                    is_guided: data.is_guided,
+                    customer_email: data.customer_email,
+                    customer_complete_name: data.customer_complete_name,
+                    code: data.code,
+                    date: data.date ?? '',
+                    time: data.time ?? '',
+                    visitors: allVisitors,
+                    total_price: data.total_amount.toFixed(2),
+                  });
+                }
 
                 return {
                   success: true,
@@ -239,5 +258,5 @@ export default {
       });
   },
 
-  bootstrap() {},
+  bootstrap() { },
 };

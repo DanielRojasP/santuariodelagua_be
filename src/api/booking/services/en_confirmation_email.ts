@@ -7,12 +7,15 @@ interface Visitor {
 }
 
 interface BookingEmailData {
+  tour_title: string;
+  is_guided: boolean;
   customer_email: string;
   customer_complete_name: string;
   code: string;
   date?: string;
   time?: string;
   visitors: Visitor[];
+  total_price?: string;
 }
 
 // Etiquetas legibles para cada grupo de edad (locales y extranjeros)
@@ -109,7 +112,7 @@ const renderGroup = (
 };
 
 export const sendEnConfirmationEmail = async (bookingData: BookingEmailData) => {
-  const { customer_email, customer_complete_name, code, date, time, visitors } = bookingData;
+  const { tour_title,is_guided, customer_email, customer_complete_name, code, date, time, visitors, total_price } = bookingData;
 
   const nationals = groupByAge(visitors, 'LOCAL');
   const foreigners = groupByAge(visitors, 'FOREIGNER');
@@ -120,7 +123,11 @@ export const sendEnConfirmationEmail = async (bookingData: BookingEmailData) => 
     subject: `Confirmation of your booking at Santuario del Agua (${code})`,
     html: `
       <div style="font-family:Arial,Helvetica,sans-serif;max-width:560px;margin:0 auto;color:#334155;line-height:1.5;">
-        <p>Dear ${escapeHtml(customer_complete_name)},</p>
+      
+      <h2 style="margin:0 0 12px;font-size:18px;color:#0f172a;">Booking Confirmation</h2>
+      <p style="margin:0 0 12px;font-size:15px;color:#334155;">${is_guided ? 'Guided Tour/Activity' : 'Tour/Activity'}: <strong>${escapeHtml(tour_title)}</strong></p>
+      
+      <p>Dear ${escapeHtml(customer_complete_name)},</p>
         <p>Your booking has been confirmed.</p>
 
         <table role="presentation" cellpadding="0" cellspacing="0" style="width:100%;font-size:14px;margin:12px 0;">
@@ -143,6 +150,10 @@ export const sendEnConfirmationEmail = async (bookingData: BookingEmailData) => 
 
         <p style="margin:20px 0 0;font-size:15px;">
           <strong>Total number of people: ${totalPeople}</strong>
+        </p>
+
+        <p style="margin:4px 0 0;font-size:15px;">
+          <strong>Total price: CRC ${escapeHtml(total_price ?? '0.00')}</strong>
         </p>
 
         <p style="margin-top:24px;">Thank you for choosing Santuario del Agua!</p>
